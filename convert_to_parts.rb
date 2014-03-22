@@ -15,12 +15,12 @@ File.open(ARGV[0], 'rb') do |file|
   end
 end
 
-parts = seq.tracks.map(&:name).reject {|name| name == "Unnamed" }
+parts = seq.tracks.map(&:name).reject {|name| name == "Unnamed" } << "All"
 
 parts.each do |part|
   out = seq
   out.tracks.each do |track|
-    this_part = true if track.name == part
+    this_part = true if track.name == part || part == "All"
     event_with_channel = track.events.detect {|e| e.respond_to?(:channel) }
     channel = event_with_channel ? event_with_channel.channel : nil
     track.events.map! do |event|
